@@ -7,11 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
 
 namespace TetrisProject
 {
     public partial class Form1 : Form
     {
+
         private Figure figure;
         private Board board;
         private Figure nextFigure;
@@ -26,6 +30,11 @@ namespace TetrisProject
         private string myIP;
         private string yourIP;
 
+        private TcpListener tcpListener = null;
+        private TcpClient tcpClient = null;
+        private BinaryReader br = null;
+        private BinaryWriter bw = null;
+        private NetworkStream ns;
 
         public Form1()
         {
@@ -77,7 +86,19 @@ namespace TetrisProject
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Form2 f2 = new Form2(this);
+            tcpListener = new TcpListener(3000);
+            tcpListener.Start();
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+            for (int i = 0; i < host.AddressList.Length; i++)
+            {
+                if (host.AddressList[i].AddressFamily == AddressFamily.InterNetwork)
+                {
+                    myIP = host.AddressList[i].ToString();
+                    break;
+                }
+            }
+
+            Form2 f2 = new Form2(this, myIP);
             f2.Show();
 
             timer1.Interval = 100;
@@ -128,11 +149,77 @@ namespace TetrisProject
         }
         
         // ip 받아오기
-        public void SetIP(string ip1, string ip2)
+        public void SetIP(string ip, bool s)
         {
-            myIP = ip1;
-            yourIP = ip2;
+            yourIP = ip;
+            if (s)
+                ItsServer();
+            else
+                ItsClient();
             timer1.Start();
+        }
+
+        private void ItsServer()
+        {
+            // 서버로 접속
+            tcpClient = tcpListener.AcceptTcpClient();
+            if (tcpClient.Connected)
+            {
+                yourIP = ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString();
+            }
+
+            ns = tcpClient.GetStream();
+            bw = new BinaryWriter(ns);
+            br = new BinaryReader(ns);
+        }
+
+        private void ItsClient()
+        {
+            // 클라이언트로 접속
+            tcpClient = new TcpClient(yourIP, 3000);
+            if (tcpClient.Connected)
+            {
+                ns = tcpClient.GetStream();
+                br = new BinaryReader(ns);
+                bw = new BinaryWriter(ns);
+                MessageBox.Show("서버 접속 성공");
+            }
+            else
+            {
+                MessageBox.Show("서버 접속 실패");
+            }
+
+        }
+
+        private int DataReceive()
+        {
+            // 데이터 받기
+            return 0;
+        }
+
+        private void DataSend()
+        {
+            // 데이터 보내기
+        }
+
+        private void AllClose()
+        {
+            if (bw != null)
+            {
+                bw.Close(); bw = null;
+            }
+            if (br != null)
+            {
+                br.Close(); br = null;
+            }
+            if (ns != null)
+            {
+                ns.Close(); ns = null;
+            }
+            if (tcpClient != null)
+            {
+                tcpClient.Close(); tcpClient = null;
+            }
         }
     }
 }
