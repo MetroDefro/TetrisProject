@@ -1,0 +1,4 @@
+﻿빌드 시작...
+1>------ 빌드 시작: 프로젝트: TetrisProject, 구성: Debug Any CPU ------
+1>  TetrisProject -> D:\DefroMat\SchoolProject\TetrisProject\TetrisProject\bin\Debug\TetrisProject.exe
+========== 빌드: 성공 1, 실패 0, 최신 0, 생략 0 ==========

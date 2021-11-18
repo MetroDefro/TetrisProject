@@ -1,0 +1,11 @@
+D:\DefroMat\SchoolProject\TetrisProject\TetrisProject\bin\Debug\TetrisProject.exe.config
+D:\DefroMat\SchoolProject\TetrisProject\TetrisProject\bin\Debug\TetrisProject.exe
+D:\DefroMat\SchoolProject\TetrisProject\TetrisProject\bin\Debug\TetrisProject.pdb
+D:\DefroMat\SchoolProject\TetrisProject\TetrisProject\obj\Debug\TetrisProject.csproj.AssemblyReference.cache
+D:\DefroMat\SchoolProject\TetrisProject\TetrisProject\obj\Debug\TetrisProject.Form1.resources
+D:\DefroMat\SchoolProject\TetrisProject\TetrisProject\obj\Debug\TetrisProject.Properties.Resources.resources
+D:\DefroMat\SchoolProject\TetrisProject\TetrisProject\obj\Debug\TetrisProject.csproj.GenerateResource.cache
+D:\DefroMat\SchoolProject\TetrisProject\TetrisProject\obj\Debug\TetrisProject.csproj.CoreCompileInputs.cache
+D:\DefroMat\SchoolProject\TetrisProject\TetrisProject\obj\Debug\TetrisProject.exe
+D:\DefroMat\SchoolProject\TetrisProject\TetrisProject\obj\Debug\TetrisProject.pdb
+D:\DefroMat\SchoolProject\TetrisProject\TetrisProject\obj\Debug\TetrisProject.Form2.resources
