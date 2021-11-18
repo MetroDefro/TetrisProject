@@ -81,6 +81,8 @@ namespace TetrisProject
                 timer1.Start();
             }
 
+            DataSend();
+            DataReceive();
             panel1.Invalidate();
         }
 
@@ -194,12 +196,18 @@ namespace TetrisProject
         private int DataReceive()
         {
             // 데이터 받기
+            for (int x = 0; x < 11; x++)
+                for (int y = 0; y < 24; y++)
+                    enemyBoard.Grid[x, y] = br.ReadBoolean();
             return 0;
         }
 
         private void DataSend()
         {
             // 데이터 보내기
+            for (int x = 0; x < 11; x++)
+                for (int y = 0; y < 24; y++)
+                    bw.Write(board.Grid[x, y]);
         }
 
         private void AllClose()

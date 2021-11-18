@@ -44,28 +44,5 @@ namespace TetrisProject
             this.Close();
         }
 
-
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            /*
-            while (true)
-            {
-                if (tcpClient.Connected)
-                {
-                    if (DataReceive() == -1)
-                        break;
-                    DataSend();
-                }
-                else
-                {
-                    AllClose();
-                    break;
-                }
-            }
-            AllClose();
-            */
-
-        }
     }
 }
