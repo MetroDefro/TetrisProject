@@ -51,6 +51,8 @@
     <Compile Include="DoublePanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="EchoClient.cs" />
+    <Compile Include="EchoServer.cs" />
     <Compile Include="EnemyBoard.cs" />
     <Compile Include="Figure.cs" />
     <Compile Include="Board.cs" />

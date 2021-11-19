@@ -9,6 +9,7 @@ namespace TetrisProject
 {
     class Board
     {
+        private Random r = new Random(unchecked((int)DateTime.Now.Ticks));
         Pen pen = new Pen(Color.White);
         Brush brush = new SolidBrush(Color.Green);
 
@@ -23,6 +24,8 @@ namespace TetrisProject
         public const int PY = 24;
         public const int SX = 4; // 0부터 시작
         public const int SY = 0; // 0부터 시작
+
+        public int Count;
 
 
         public int score;
@@ -90,6 +93,7 @@ namespace TetrisProject
         public void DeleteLine()
         {
             int sum;
+            Count = 0;
             for(int y = 23; y >= 0; y--)
             {
                 sum = 0;
@@ -102,6 +106,30 @@ namespace TetrisProject
                         for (int x = 0; x < 11; x++)
                             grid[x, i] = grid[x, i - 1];
                     score += 100;
+                    Count += 1;
+                }
+            }
+        }
+
+        public void PlusLine(int count)
+        {
+            int hole;
+            if(count != 0)
+            {
+                for (int i = 0; i < 24; i++)
+                    for (int x = 0; x < 11; x++)
+                    {
+                        if ((i - count) >= 0)
+                            grid[x, i - count] = grid[x, i];
+                    }
+                for (int i = 23; i > 23 - count; i--)
+                {
+                    hole = r.Next(11);
+                    for (int x = 0; x < 11; x++)
+                    {
+                        if (x != hole)
+                            grid[x, i] = true;
+                    }
                 }
             }
         }

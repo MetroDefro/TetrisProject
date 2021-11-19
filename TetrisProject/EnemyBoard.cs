@@ -62,9 +62,9 @@ namespace TetrisProject
                 {
                     if (grid[x, y])
                     {
-                        g.FillRectangle(brush, 380 + x * P_WIDTH, 40 + y * P_HEIGHT,
+                        g.FillRectangle(brush, 420 + x * P_WIDTH, 40 + y * P_HEIGHT,
                              P_WIDTH, P_HEIGHT);
-                        g.DrawRectangle(pen, 380 + x * P_WIDTH, 40 + y * P_HEIGHT,
+                        g.DrawRectangle(pen, 420 + x * P_WIDTH, 40 + y * P_HEIGHT,
                             P_WIDTH, P_HEIGHT);
                     }
                 }

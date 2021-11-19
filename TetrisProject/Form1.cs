@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
@@ -32,9 +33,9 @@ namespace TetrisProject
 
         private TcpListener tcpListener = null;
         private TcpClient tcpClient = null;
-        private BinaryReader br = null;
-        private BinaryWriter bw = null;
-        private NetworkStream ns;
+
+        NetworkStream ns;
+
 
         public Form1()
         {
@@ -63,6 +64,7 @@ namespace TetrisProject
         private void timer1_Tick(object sender, EventArgs e)
         {
             board.DeleteLine();
+
             figure.Move(board);
             if (figure.MoveDown(board))
             {
@@ -80,15 +82,12 @@ namespace TetrisProject
                 GameOverL.Visible = false;
                 timer1.Start();
             }
-
-            DataSend();
-            DataReceive();
             panel1.Invalidate();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            tcpListener = new TcpListener(3000);
+            tcpListener = new TcpListener(1999);
             tcpListener.Start();
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
             for (int i = 0; i < host.AddressList.Length; i++)
@@ -169,65 +168,33 @@ namespace TetrisProject
             {
                 yourIP = ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString();
             }
-
             ns = tcpClient.GetStream();
-            bw = new BinaryWriter(ns);
-            br = new BinaryReader(ns);
+
+            EchoServer echoServer = new EchoServer(board, enemyBoard, ns);
+            Thread th = new Thread(new ThreadStart(echoServer.Process));
+            th.IsBackground = true;
+            th.Start();
+
         }
 
         private void ItsClient()
         {
             // 클라이언트로 접속
-            tcpClient = new TcpClient(yourIP, 3000);
+            tcpClient = new TcpClient(yourIP, 1999);
             if (tcpClient.Connected)
             {
                 ns = tcpClient.GetStream();
-                br = new BinaryReader(ns);
-                bw = new BinaryWriter(ns);
                 MessageBox.Show("서버 접속 성공");
             }
             else
             {
                 MessageBox.Show("서버 접속 실패");
             }
+            EchoServer echoClient = new EchoServer(board, enemyBoard, ns);
+            Thread th = new Thread(new ThreadStart(echoClient.Process));
+            th.IsBackground = true;
+            th.Start();
 
-        }
-
-        private int DataReceive()
-        {
-            // 데이터 받기
-            for (int x = 0; x < 11; x++)
-                for (int y = 0; y < 24; y++)
-                    enemyBoard.Grid[x, y] = br.ReadBoolean();
-            return 0;
-        }
-
-        private void DataSend()
-        {
-            // 데이터 보내기
-            for (int x = 0; x < 11; x++)
-                for (int y = 0; y < 24; y++)
-                    bw.Write(board.Grid[x, y]);
-        }
-
-        private void AllClose()
-        {
-            if (bw != null)
-            {
-                bw.Close(); bw = null;
-            }
-            if (br != null)
-            {
-                br.Close(); br = null;
-            }
-            if (ns != null)
-            {
-                ns.Close(); ns = null;
-            }
-            if (tcpClient != null)
-            {
-                tcpClient.Close(); tcpClient = null;
-            }
         }
     }
 }
