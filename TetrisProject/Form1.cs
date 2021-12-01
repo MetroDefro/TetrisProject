@@ -33,8 +33,8 @@ namespace TetrisProject
 
         private TcpListener tcpListener = null;
         private TcpClient tcpClient = null;
+        // NetworkStream ns;
 
-        NetworkStream ns;
 
 
         public Form1()
@@ -46,10 +46,13 @@ namespace TetrisProject
             InitializeComponent();
             DoubleBuffered = true;
             GameOverL.Visible = false;
+            GameVictoryL.Visible = false;
             score.BackColor = Color.Transparent;
             label1.BackColor = Color.Transparent;
             label2.BackColor = Color.Transparent;
+            label3.BackColor = Color.Transparent;
             GameOverL.BackColor = Color.Transparent;
+            GameVictoryL.BackColor = Color.Transparent;
 
         }
 
@@ -73,14 +76,22 @@ namespace TetrisProject
                 nextFigure = new Figure(r.Next(7), r.Next(4), board);
                 
             }
-            score.Text = board.score.ToString(); ;
+            score.Text = board.score.ToString();
             if (board.IsGameOver())
             {
                 GameOverL.Visible = true;
                 timer1.Stop();
+
+                /*
                 board.Reset();
                 GameOverL.Visible = false;
                 timer1.Start();
+                */
+            }
+            if (board.Victory)
+            {
+                GameVictoryL.Visible = true;
+                timer1.Stop();
             }
             panel1.Invalidate();
         }
@@ -168,9 +179,9 @@ namespace TetrisProject
             {
                 yourIP = ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString();
             }
-            ns = tcpClient.GetStream();
 
-            EchoServer echoServer = new EchoServer(board, enemyBoard, ns);
+            //ns = tcpClient.GetStream();
+            EchoServer echoServer = new EchoServer(board, enemyBoard, tcpClient);
             Thread th = new Thread(new ThreadStart(echoServer.Process));
             th.IsBackground = true;
             th.Start();
@@ -183,17 +194,22 @@ namespace TetrisProject
             tcpClient = new TcpClient(yourIP, 1999);
             if (tcpClient.Connected)
             {
-                ns = tcpClient.GetStream();
+                //ns = tcpClient.GetStream();
                 MessageBox.Show("서버 접속 성공");
             }
             else
             {
                 MessageBox.Show("서버 접속 실패");
             }
-            EchoServer echoClient = new EchoServer(board, enemyBoard, ns);
+            EchoServer echoClient = new EchoServer(board, enemyBoard, tcpClient);
             Thread th = new Thread(new ThreadStart(echoClient.Process));
             th.IsBackground = true;
             th.Start();
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
 
         }
     }

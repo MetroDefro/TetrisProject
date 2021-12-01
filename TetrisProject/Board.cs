@@ -16,6 +16,7 @@ namespace TetrisProject
         // 좌표
         private bool[,] grid = new bool[11, 24];
         public bool[,] Grid { get => grid; set => grid = value; }
+        public bool Victory { get => victory; set => victory = value; }
 
         // 픽셀 크기
         public const int P_WIDTH = 20;
@@ -27,17 +28,22 @@ namespace TetrisProject
 
         public int Count;
 
-
         public int score;
+
+        private bool victory;
+
 
         public Board()
         {
+
             // grid 배열 초기화
             for (int i = 0; i < 11; i++)
                 for (int j = 0; j < 24; j++)
                     grid[i, j] = false;
 
             score = 0;
+
+            victory = false;
 
         }
         public void Reset()
@@ -114,6 +120,7 @@ namespace TetrisProject
         public void PlusLine(int count)
         {
             int hole;
+
             if(count != 0)
             {
                 for (int i = 0; i < 24; i++)
@@ -129,6 +136,8 @@ namespace TetrisProject
                     {
                         if (x != hole)
                             grid[x, i] = true;
+                        else
+                            grid[x, i] = false;
                     }
                 }
             }

@@ -12,29 +12,37 @@ namespace TetrisProject
 {
     class EchoServer
     {
+        TcpClient tcpClient;
         private BinaryReader br = null;
         private BinaryWriter bw = null;
 
         Board board;
         EnemyBoard enemyBoard;
 
-        public EchoServer(Board b, EnemyBoard e, NetworkStream ns)
+        public EchoServer(Board b, EnemyBoard e, TcpClient client)
         {
+            tcpClient = client;
             board = b;
             enemyBoard = e;
-            br = new BinaryReader(ns);
-            bw = new BinaryWriter(ns);
+
         }
 
         public void Process()
         {
+            NetworkStream ns = tcpClient.GetStream();
+            br = new BinaryReader(ns);
+            bw = new BinaryWriter(ns);
+
+
             while (true)
             {
+
+
                 // 데이터 주고 받기
-
-                DataReceive();
                 DataSend(board.Count);
-
+                DataReceive();
+                
+                
             }
 
         }
@@ -46,6 +54,8 @@ namespace TetrisProject
                 for (int y = 0; y < 24; y++)
                     enemyBoard.Grid[x, y] = br.ReadBoolean();
             board.PlusLine(br.ReadInt32());
+            if (br.ReadBoolean())
+                board.Victory = true;
             return 0;
         }
 
@@ -56,6 +66,12 @@ namespace TetrisProject
                 for (int y = 0; y < 24; y++)
                     bw.Write(board.Grid[x, y]);
             bw.Write(count);
+            if (board.Count != 0)
+                board.Count = 0;
+            bw.Write(board.IsGameOver());
+            
+
         }
+
     }
 }

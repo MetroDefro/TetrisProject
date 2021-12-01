@@ -36,6 +36,7 @@ namespace TetrisProject
 
         private bool fix;
 
+
         public Figure(int bN, int tN, Board board)
         {
             // 40, 40
@@ -174,6 +175,7 @@ namespace TetrisProject
 
         public bool MoveDown(Board board)
         {
+
             int maxY = 2;
 
             for (int i = 0; i < 4; i++)

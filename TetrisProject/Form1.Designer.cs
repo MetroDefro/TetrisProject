@@ -32,6 +32,7 @@ namespace TetrisProject
             this.components = new System.ComponentModel.Container();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new TetrisProject.DoublePanel();
+            this.GameVictoryL = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -46,6 +47,7 @@ namespace TetrisProject
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.GameVictoryL);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
@@ -57,11 +59,24 @@ namespace TetrisProject
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
+            // GameVictoryL
+            // 
+            this.GameVictoryL.AutoSize = true;
+            this.GameVictoryL.BackColor = System.Drawing.SystemColors.ControlText;
+            this.GameVictoryL.Font = new System.Drawing.Font("Tw Cen MT", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GameVictoryL.ForeColor = System.Drawing.Color.DarkTurquoise;
+            this.GameVictoryL.Location = new System.Drawing.Point(163, 221);
+            this.GameVictoryL.Name = "GameVictoryL";
+            this.GameVictoryL.Size = new System.Drawing.Size(381, 74);
+            this.GameVictoryL.TabIndex = 5;
+            this.GameVictoryL.Text = "GameVictory";
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("돋움", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label3.Location = new System.Drawing.Point(502, 1);
+            this.label3.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.label3.Location = new System.Drawing.Point(493, 1);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(79, 32);
             this.label3.TabIndex = 4;
@@ -90,7 +105,6 @@ namespace TetrisProject
             this.label1.Size = new System.Drawing.Size(61, 24);
             this.label1.TabIndex = 2;
             this.label1.Text = "Next";
-            this.label1.Click += new System.EventHandler(this.label1_Click_1);
             // 
             // score
             // 
@@ -110,7 +124,7 @@ namespace TetrisProject
             this.GameOverL.BackColor = System.Drawing.SystemColors.ControlText;
             this.GameOverL.Font = new System.Drawing.Font("Tw Cen MT", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GameOverL.ForeColor = System.Drawing.Color.Crimson;
-            this.GameOverL.Location = new System.Drawing.Point(36, 223);
+            this.GameOverL.Location = new System.Drawing.Point(187, 221);
             this.GameOverL.Name = "GameOverL";
             this.GameOverL.Size = new System.Drawing.Size(324, 74);
             this.GameOverL.TabIndex = 0;
@@ -142,6 +156,7 @@ namespace TetrisProject
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label GameVictoryL;
     }
 }
 
